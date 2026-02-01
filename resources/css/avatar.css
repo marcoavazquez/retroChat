@@ -1,0 +1,13 @@
+.avatar {
+	border-radius: 1rem;
+	border: 0.25rem solid rgba(255, 255, 255, 0.5);
+	overflow: hidden;
+	height: 100px;
+	width: 100px;
+
+	img {
+		height: 100%;
+		width: 100%;
+		object-fit: cover;
+	}
+}

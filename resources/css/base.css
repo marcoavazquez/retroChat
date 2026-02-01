@@ -1,14 +1,52 @@
+:root {
+	--body-background: url('../images/bg-light.jpeg');
+	--window-background: linear-gradient(180deg, gray, cyan, gray);
+
+	--taskbar-background: rgba(255, 255, 255, 0.1);
+
+	--font-color: #101010;
+
+	--input-background: rgba(255, 255, 255, 0.1);
+	--input-color: #101010;
+}
+
+[data-theme="dark"] {
+	--body-background: url('../images/bg-dark.png');
+	--window-background: linear-gradient(180deg, black, blue, black);
+
+	--taskbar-background: rgba(0, 0, 0, 0.1);
+	--font-color: #FFFFFF;
+
+	--input-background: rgba(0, 0, 0, 0.9);
+	--input-color: #FFFFFF;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+
 body {
-    background-color: black;
-    color: white;
-    font-family: 'Instrument Sans', sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
+	background-image: var(--body-background);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	color: var(--font-color);
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	width: 100vw;
 }
 
 #app {
-    height: 100vh;
-    width: 100vw;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	>main {
+		padding: 1rem;
+	}
 }

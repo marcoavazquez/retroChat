@@ -1,0 +1,5 @@
+footer.taskbar {
+	background-color: var(--taskbar-background);
+	padding: 0.5rem 0;
+	backdrop-filter: blur(1rem);
+}

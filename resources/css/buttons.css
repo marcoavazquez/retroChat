@@ -1,0 +1,25 @@
+.button {
+	padding: 0.25rem 1rem;
+}
+
+.icon-button {
+	background-color: transparent;
+	border-radius: 1rem;
+	border: none;
+	height: 1.5rem;
+	width: 1.5rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	svg,
+	img {
+		height: 100%;
+		width: auto;
+	}
+}
+
+.icon-button:hover {
+	background-color: var(--button-hover-background);
+}

@@ -1,1 +1,8 @@
 @import "./base.css";
+@import "./ui.css";
+@import "./buttons.css";
+@import "./avatar.css";
+@import "./form.css";
+
+@import "./taskbar.css";
+@import "./windows.css";

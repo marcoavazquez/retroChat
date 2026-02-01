@@ -1,0 +1,19 @@
+.chat-window {
+	background-image: var(--window-background);
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	border-radius: 1rem;
+	border: 0.1em solid rgba(255, 255, 255, 0.1);
+
+	.chat-window-header {
+		padding: 0.5rem;
+		text-align: center;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+	}
+
+	.chat-window-body {
+		padding: 1rem;
+	}
+}
