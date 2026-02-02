@@ -12,18 +12,25 @@ const Login: React.FC<Props> = ({ onLogin }) => {
 
 	const [username, setUsername] = React.useState('');
 
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		onLogin(username);
+	};
+
 	return (
-		<Flex
-			alignItems="center"
-			justifyContent="center"
-			flexDirection="column"
-			gap='1rem'
-			padding='1rem'
-		>
-			<Avatar url="https://i.pravatar.cc/150?u=1" />
-			<Input label="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} />
-			<Button variant="primary" onClick={() => onLogin(username)}>Iniciar sesión</Button>
-		</Flex>
+		<form onSubmit={handleSubmit}>
+			<Flex
+				alignItems="center"
+				justifyContent="center"
+				flexDirection="column"
+				gap='2rem'
+				padding='1rem'
+			>
+				<Avatar url="https://i.pravatar.cc/150?u=1" />
+				<Input label="Tu nombre" value={username} onChange={(e) => setUsername(e.target.value)} />
+				<Button type='submit' variant="primary">Iniciar sesión</Button>
+			</Flex>
+		</form>
 	);
 };
 

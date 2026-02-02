@@ -6,3 +6,7 @@
 
 @import "./taskbar.css";
 @import "./windows.css";
+
+
+@import "./model-selector.css";
+@import "./chat.css";

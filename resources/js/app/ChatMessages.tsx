@@ -10,7 +10,7 @@ interface Props {
 const ChatMessages: React.FC<Props> = ({ user, messages }) => {
 
 	return (
-		<div>
+		<div className='chat-messages'>
 			{messages.map((message) => (
 				<div key={message.id}>
 					<span>{message.user}</span>

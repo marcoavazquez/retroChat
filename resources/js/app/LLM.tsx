@@ -23,14 +23,14 @@ const LLM: React.FC<Props> = ({ user }) => {
 
 	const [messages, setMessages] = React.useState<Message[]>([]);
 
-	const { worker } = useChat(provider);
+	// const { worker } = useChat(provider);
 
 	const handleSend = () => {
 		setDisabled(true);
 		setOutput('')
-		worker.current?.postMessage({
-			prompt: input
-		})
+		// worker.current?.postMessage({
+		// 	prompt: input
+		// })
 	}
 
 	return (
@@ -41,17 +41,21 @@ const LLM: React.FC<Props> = ({ user }) => {
 			{progressItems.map((item, index) => (
 				<Progress key={index} percent={item.progress} />
 			))}
-			<Flex justifyContent='space-between' padding="1rem 0">
-				<ChatMessages user={user} messages={messages} />
+			<Flex justifyContent='space-between' padding="1rem 0" gap='1rem'>
+				<div style={{ flex: 1 }}>
+					<ChatMessages user={user} messages={messages} />
+				</div>
 				<Avatar url="https://i.pravatar.cc/150?u=2" />
 			</Flex>
-			<Flex justifyContent='space-between' padding="1rem 0">
-				<ChatInput
-					value={input}
-					disabled={disabled}
-					onChange={(e) => setInput(e.target.value)}
-					onSend={() => { }}
-				/>
+			<Flex justifyContent='space-between' padding="1rem 0" gap='1rem'>
+				<div style={{ flex: 1 }}>
+					<ChatInput
+						value={input}
+						disabled={disabled}
+						onChange={(e) => setInput(e.target.value)}
+						onSend={() => { }}
+					/>
+				</div>
 				<Avatar url="https://i.pravatar.cc/150?u=1" />
 			</Flex>
 		</>

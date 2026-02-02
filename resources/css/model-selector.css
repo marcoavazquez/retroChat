@@ -1,0 +1,38 @@
+.model-selector {
+
+	>header {
+		padding: 1rem;
+	}
+
+	section {
+		padding: 1rem 0;
+		background-color: var(--model-selector-background);
+	}
+
+	ul {
+		list-style-type: '🤖';
+		padding: 0 1rem 0 2rem;
+		margin: 0;
+	}
+
+	li {
+		padding: 0.2rem;
+	}
+
+	details {
+		line-height: 2;
+	}
+
+	details>summary {
+		font-weight: bold;
+		cursor: pointer;
+	}
+
+	details>summary::marker {
+		content: '> ';
+	}
+
+	details[open]>summary::marker {
+		content: 'v ';
+	}
+}

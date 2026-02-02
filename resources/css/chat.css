@@ -1,0 +1,23 @@
+.chat-messages,
+.chat-input {
+	border-radius: 0.5rem;
+	border: 0.1rem solid var(--window-border-color);
+}
+
+
+.chat-messages {
+	background-color: var(--chat-background);
+	height: 100%;
+}
+
+.chat-input {
+	background-color: var(--chat-background);
+	height: 100%;
+
+	textarea {
+		width: 100%;
+		border: none;
+		outline: none;
+		background-color: transparent;
+	}
+}
