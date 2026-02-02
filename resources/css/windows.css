@@ -4,16 +4,21 @@
 	background-position: center;
 	background-repeat: no-repeat;
 
-	border-radius: 1rem;
-	border: 0.1em solid rgba(255, 255, 255, 0.1);
+	border-radius: 0.5rem;
+
+	box-shadow: 0 0 0.1rem 0.1rem rgb(0 0 0 / 0.1), 0 0.5rem 1rem rgb(0 0 0 / 0.5);
+
+	overflow: hidden;
 
 	.chat-window-header {
-		padding: 0.5rem;
-		text-align: center;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+		background: var(--window-header-background);
+		padding: 0.5rem 1rem;
 	}
 
 	.chat-window-body {
 		padding: 1rem;
+		border-style: solid;
+		border-color: var(--window-border-color);
+		border-width: 0 0.25rem 0.25rem 0.25rem;
 	}
 }

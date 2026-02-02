@@ -1,5 +1,17 @@
 .button {
-	padding: 0.25rem 1rem;
+	padding: 0.35rem 1rem;
+	border-radius: 0.25rem;
+	border: 1px solid var(--primary-color);
+
+	transition: all 0.2s ease-in-out;
+}
+
+.button:hover,
+.button:active,
+.button:focus {
+	box-shadow: 0 0 0.1em var(--primary-color);
+	outline: 1px solid var(--primary-color);
+
 }
 
 .icon-button {

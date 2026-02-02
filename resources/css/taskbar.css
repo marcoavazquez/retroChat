@@ -1,5 +1,8 @@
 footer.taskbar {
-	background-color: var(--taskbar-background);
+	background: var(--taskbar-background);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 	padding: 0.5rem 0;
 	backdrop-filter: blur(1rem);
+	border-top: 1px solid rgba(0, 0, 0, 0.5);
 }

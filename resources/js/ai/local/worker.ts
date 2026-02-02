@@ -11,7 +11,7 @@ class ChatPipeline {
 
 		self.addEventListener('message', async (e) => {
 
-			const message = await ChatPipeline.getInstance(v => {
+			const message = await ChatPipeline.getInstance((v: any) => {
 				self.postMessage(v)
 			});
 

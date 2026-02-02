@@ -1,24 +1,39 @@
 :root {
+	--primary-color: #b4cbe3;
+
+
 	--body-background: url('../images/bg-light.jpeg');
-	--window-background: linear-gradient(180deg, gray, cyan, gray);
+	--window-background: linear-gradient(0, #FAFCFE, var(--primary-color), #FAFCFE);
+	--window-header-background: linear-gradient(0, var(--primary-color) 95%, white);
+	--window-border-color: var(--primary-color);
 
-	--taskbar-background: rgba(255, 255, 255, 0.1);
+	--taskbar-background: rgba(0 0 0 / 0.1);
 
-	--font-color: #101010;
+	--font-color: #071127;
 
-	--input-background: rgba(255, 255, 255, 0.1);
+	--input-background: white;
+	--input-border: 1px solid #869db6;
 	--input-color: #101010;
 }
 
 [data-theme="dark"] {
-	--body-background: url('../images/bg-dark.png');
-	--window-background: linear-gradient(180deg, black, blue, black);
 
-	--taskbar-background: rgba(0, 0, 0, 0.1);
+	--primary-color: #222222;
+
+	--body-background: url('../images/bg-dark.png');
+
+	--window-background: linear-gradient(180deg, var(--primary-color), black, var(--primary-color));
+	--window-header-background: linear-gradient(180deg, rgb(255 255 255 / 0.1) 50%, rgb(0 0 0 / 0.3) 50%),
+		linear-gradient(0deg, black 95%, #888888);
+	--window-border-color: black;
+
+	--taskbar-background: linear-gradient(180deg, rgb(255 255 255 / 0.2) 50%, rgb(0 0 0 / 0.3) 50%),
+		linear-gradient(0deg, black 80%, #888888);
 	--font-color: #FFFFFF;
 
 	--input-background: rgba(0, 0, 0, 0.9);
 	--input-color: #FFFFFF;
+	--input-border: 1px solid #869db6;
 }
 
 * {
