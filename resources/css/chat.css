@@ -10,6 +10,15 @@
 	padding: 0.5rem;
 	min-height: 16rem;
 	height: 100%;
+	line-height: 1.8;
+}
+
+.chat-messages-user {
+	color: #aaa;
+}
+
+.chat-messages-message {
+	padding-left: 0.5rem;
 }
 
 .chat-input {
@@ -24,5 +33,6 @@
 		border: none;
 		outline: none;
 		background-color: transparent;
+		color: var(--text-color);
 	}
 }

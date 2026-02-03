@@ -14,7 +14,7 @@ class Local implements ChatModel {
         this.progress = 100;
     }
 
-    async onSendMessage(message: ChatMessage): Promise<ChatMessage> {
+    async sendMessage(message: ChatMessage): Promise<ChatMessage> {
         return {
             id: Date.now().toString(),
             user: 'model',
@@ -23,13 +23,13 @@ class Local implements ChatModel {
         }
     }
 
-    async onReceiveMessage(message: ChatMessage): Promise<ChatMessage> {
-        return {
+    onReceiveMessage(callback: (message: ChatMessage) => void): void {
+        callback({
             id: Date.now().toString(),
             user: 'model',
             message: 'No model selected',
             timestamp: Date.now()
-        }
+        })
     }
 }
 

@@ -21,7 +21,7 @@ const Chat: React.FC = () => {
 		<>
 			<Flex justifyContent='space-between' padding="1rem" gap='1rem'>
 				<div style={{ flex: 1 }}>
-					<ChatMessages user={user} messages={messages} />
+					<ChatMessages messages={messages} />
 				</div>
 				<Avatar url="https://i.pravatar.cc/150?u=2" />
 			</Flex>

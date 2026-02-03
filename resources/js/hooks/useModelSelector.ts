@@ -20,11 +20,14 @@ const useModelSelector = (provider: string, model: string) => {
             setIsReady(chatModel.isReady);
             setIsLoading(chatModel.isLoading);
             setProgress(chatModel.progress);
+            chatModel.onReceiveMessage((message: ChatMessage) => {
+                setMessages((prev) => [...prev, message]);
+            })
         }
     }, [chatModel])
 
     const onSendMessage = async (message: ChatMessage) => {
-        const response = await chatModel?.onSendMessage(message);
+        const response = await chatModel?.sendMessage(message);
         if (response) {
             setMessages((prev) => [...prev, response]);
         }

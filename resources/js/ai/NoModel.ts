@@ -13,12 +13,24 @@ class NoModel implements ChatModel {
         this.progress = 100;
     }
 
-    async onSendMessage(message: ChatMessage): Promise<ChatMessage> {
+    async sendMessage(message: ChatMessage): Promise<ChatMessage> {
+        this.processMessage(message)
         return message
     }
 
-    async onReceiveMessage(message: ChatMessage): Promise<ChatMessage> {
-        return message
+    async processMessage(message: ChatMessage): Promise<void> {
+        this.onReceiveMessage((message) => {
+            return message
+        })
+    }
+
+    onReceiveMessage(callback: (message: ChatMessage) => void): void {
+        callback({
+            id: Date.now().toString(),
+            user: 'Assistant',
+            message: 'Hello, I am not a real model. I am just a placeholder for testing purposes.',
+            timestamp: Date.now()
+        })
     }
 }
 

@@ -12,8 +12,8 @@ const ChatMessages: React.FC<Props> = ({ messages }) => {
 		<div className='chat-messages'>
 			{messages.map((message) => (
 				<div key={message.id}>
-					<span>{message.user}</span>
-					<div>{message.message}</div>
+					<span className='chat-messages-user'>{message.user} says:</span>
+					<div className='chat-messages-message'>{message.message}</div>
 				</div>
 			))}
 		</div>
