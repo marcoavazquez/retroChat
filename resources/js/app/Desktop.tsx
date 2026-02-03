@@ -1,15 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ChatWindow } from '@/components/windows';
 import Login from './Login';
 import ModelSelector from './ModelSelector';
 import Chat from './Chat';
 import { Flex } from '@/components/ui/Flex';
 import ChatContext from '@/contexts/ChatContext';
+import { Model } from '@/types/models';
 
 const Desktop: React.FC = () => {
 
 	const [user, setUser] = React.useState<string>('Anonimo');
-	const [model, setModel] = React.useState<string>('no-model');
+	const [model, setModel] = React.useState<Model>({
+		provider: 'local',
+		model: 'none'
+	});
 
 	const handleLogin = (username: string) => {
 		setUser(username);
@@ -25,7 +29,7 @@ const Desktop: React.FC = () => {
 						</ChatWindow>
 					</div>
 					<div style={{ flex: 1 }}>
-						<ChatWindow title="Chat">
+						<ChatWindow title={`Chat with ${model.provider} - ${model.model}`}>
 							<Chat />
 						</ChatWindow>
 					</div>

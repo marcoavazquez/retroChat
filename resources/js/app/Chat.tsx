@@ -10,8 +10,8 @@ import ChatContext from '@/contexts/ChatContext'
 
 const Chat: React.FC = () => {
 
-	const { user } = useContext(ChatContext);
-	const { messages, isReady, progress, onSendMessage } = useModelSelector(user);
+	const { user, model } = useContext(ChatContext);
+	const { messages, isReady, progress, onSendMessage } = useModelSelector(model.provider, model.model);
 
 	const handleSend = (message: ChatMessage) => {
 		onSendMessage(message);

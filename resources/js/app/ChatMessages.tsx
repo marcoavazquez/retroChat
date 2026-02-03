@@ -1,21 +1,19 @@
 import React from 'react';
-import { Message } from '@/types/chat';
+import { ChatMessage } from '@/types/chat';
 
 interface Props {
-	user: string;
-	messages: Message[];
+	messages: ChatMessage[];
 }
 
 
-const ChatMessages: React.FC<Props> = ({ user, messages }) => {
+const ChatMessages: React.FC<Props> = ({ messages }) => {
 
 	return (
 		<div className='chat-messages'>
 			{messages.map((message) => (
 				<div key={message.id}>
 					<span>{message.user}</span>
-					<span>{message.message}</span>
-					<span>{message.timestamp}</span>
+					<div>{message.message}</div>
 				</div>
 			))}
 		</div>

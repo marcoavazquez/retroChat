@@ -7,6 +7,7 @@
 
 .chat-messages {
 	background-color: var(--chat-background);
+	padding: 0.5rem;
 	min-height: 16rem;
 	height: 100%;
 }

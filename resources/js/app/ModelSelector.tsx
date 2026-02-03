@@ -24,8 +24,8 @@ const ModelSelector: React.FC = () => {
 					<details>
 						<summary>Local ( 2 )</summary>
 						<ul>
-							<li><button onClick={() => setModel('no-model')}>No model (for testing)</button></li>
-							<li><button onClick={() => setModel('qwen2.5-0.5b-instruct')}>Qwen2.5-0.5B-Instruct</button></li>
+							<li><button onClick={() => setModel({ provider: 'local', model: 'none' })}>No model (for testing)</button></li>
+							<li><button onClick={() => setModel({ provider: 'local', model: 'qwen2.5-0.5b-instruct' })}>Qwen2.5-0.5B-Instruct</button></li>
 						</ul>
 					</details>
 					<details>

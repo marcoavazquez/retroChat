@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/buttons';
+import ChatContext from '@/contexts/ChatContext';
 import { ChatMessage } from '@/types/chat';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 interface Props {
 	disabled: boolean;
@@ -9,12 +10,14 @@ interface Props {
 
 const ChatInput: React.FC<Props> = ({ disabled, onSend }) => {
 
+	const { user } = useContext(ChatContext);
+
 	const [message, setMessage] = useState<string>('');
 
 	const handleSend = (message: string) => {
 		onSend({
 			id: Date.now().toString(),
-			user: 'user',
+			user,
 			message,
 			timestamp: Date.now()
 		});

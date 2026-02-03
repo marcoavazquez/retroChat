@@ -1,16 +1,20 @@
+import { Model } from "@/types/models";
 import { createContext } from "react";
 
 interface ChatContextValue {
     user: string;
-    model: string;
+    model: Model;
     setUser: (user: string) => void;
-    setModel: (model: string) => void;
+    setModel: (model: Model) => void;
 }
 
 
 const ChatContext = createContext<ChatContextValue>({
     user: 'Guess User',
-    model: 'no-model',
+    model: {
+        provider: 'local',
+        model: 'none'
+    },
     setUser: () => { },
     setModel: () => { }
 });

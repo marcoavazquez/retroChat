@@ -1,11 +1,14 @@
 import { ChatMessage, ChatModel } from "@/types/chat";
 
-class NoModelService implements ChatModel {
+class Local implements ChatModel {
     isReady: boolean;
     isLoading: boolean;
     progress: number;
+    model: string;
 
-    constructor() {
+    constructor(model: string) {
+        this.model = model;
+        // implementar carga de modelo
         this.isReady = true;
         this.isLoading = false;
         this.progress = 100;
@@ -30,4 +33,4 @@ class NoModelService implements ChatModel {
     }
 }
 
-export default NoModelService;
+export default Local;
