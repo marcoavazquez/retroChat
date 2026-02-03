@@ -9,13 +9,14 @@ import ChatContext from '@/contexts/ChatContext';
 const Desktop: React.FC = () => {
 
 	const [user, setUser] = React.useState<string>('Anonimo');
+	const [model, setModel] = React.useState<string>('no-model');
 
 	const handleLogin = (username: string) => {
 		setUser(username);
 	};
 
 	return (
-		<ChatContext.Provider value={{ user, setUser }}>
+		<ChatContext.Provider value={{ user, setUser, model, setModel }}>
 			{!!user ? (
 				<Flex gap='1rem' justifyContent='space-between' flexWrap='wrap'>
 					<div>

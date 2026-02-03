@@ -10,3 +10,11 @@ export interface Chat {
 	user: string;
 	messages: ChatMessage[];
 }
+
+export interface ChatModel {
+	isReady: boolean;
+	isLoading: boolean;
+	progress: number;
+	onSendMessage: (message: ChatMessage) => void;
+	onReceiveMessage: (message: ChatMessage) => void;
+}

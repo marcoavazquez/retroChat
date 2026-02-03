@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChatMessage } from '@/types/chat';
+import ChatService from '@/services/ChatService';
 
 const useModelSelector = (model: string) => {
 
-    const [modelSelected, setModelSelected] = useState<string>(model);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [isReady, setIsReady] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [progress, setProgress] = useState<number>(0);
 
-    const onSendMessage = (message: ChatMessage) => {
+    useEffect(() => {
+        const chatService = new ChatService(model);
+    }, [])
 
+    const onSendMessage = async (message: ChatMessage) => {
+        setMessages((prev) => [...prev, message]);
     }
 
-
     return {
-        modelSelected,
         messages,
         isReady,
         progress,
+        isLoading,
         onSendMessage,
     }
 }

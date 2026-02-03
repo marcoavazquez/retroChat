@@ -6,7 +6,7 @@ import ChatContext from "@/contexts/ChatContext";
 
 const ModelSelector: React.FC = () => {
 
-	const { user } = useContext(ChatContext);
+	const { user, setModel } = useContext(ChatContext);
 
 	return (
 		<div className="model-selector">
@@ -24,8 +24,8 @@ const ModelSelector: React.FC = () => {
 					<details>
 						<summary>Local ( 2 )</summary>
 						<ul>
-							<li>No model (for testing)</li>
-							<li>Qwen2.5-0.5B-Instruct</li>
+							<li><button onClick={() => setModel('no-model')}>No model (for testing)</button></li>
+							<li><button onClick={() => setModel('qwen2.5-0.5b-instruct')}>Qwen2.5-0.5B-Instruct</button></li>
 						</ul>
 					</details>
 					<details>
