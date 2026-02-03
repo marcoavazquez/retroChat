@@ -1,17 +1,29 @@
-import React from 'react';
+import { ChatMessage } from '@/types/chat';
+import React, { useState } from 'react';
 
 interface Props {
-	value: string;
 	disabled: boolean;
-	onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-	onSend: () => void;
+	onSend: (message: ChatMessage) => void;
 }
 
-const ChatInput: React.FC<Props> = ({ value, disabled, onChange, onSend }) => {
+const ChatInput: React.FC<Props> = ({ disabled, onSend }) => {
+
+	const [message, setMessage] = useState<string>('');
+
+	const handleSend = (message: string) => {
+		onSend({
+			id: Date.now().toString(),
+			user: 'user',
+			message,
+			timestamp: Date.now()
+		});
+		setMessage('');
+	}
+
 	return (
 		<div className="chat-input">
-			<textarea value={value} onChange={onChange} disabled={disabled}></textarea>
-			<button onClick={onSend} disabled={disabled}>Enviar</button>
+			<textarea value={message} onChange={(e) => setMessage(e.target.value)} disabled={disabled}></textarea>
+			<button onClick={() => handleSend(message)} disabled={disabled}>Enviar</button>
 		</div>
 	);
 };

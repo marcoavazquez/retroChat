@@ -1,12 +1,12 @@
 import React from 'react';
 import { TaskBar } from '@/components/taskbar';
-import Chat from './app/Chat';
+import Desktop from './app/Desktop';
 
 const App = () => {
 	return (
 		<>
 			<main>
-				<Chat />
+				<Desktop />
 			</main>
 			<TaskBar />
 		</>

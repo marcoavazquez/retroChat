@@ -1,4 +1,4 @@
-export interface Message {
+export interface ChatMessage {
 	id: string;
 	user: string;
 	message: string;
@@ -8,5 +8,5 @@ export interface Message {
 export interface Chat {
 	id: string;
 	user: string;
-	messages: Message[];
+	messages: ChatMessage[];
 }

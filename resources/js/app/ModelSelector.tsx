@@ -1,12 +1,13 @@
 import { Avatar } from "@/components/avatar";
 import { Container } from "@/components/ui/Container";
 import { Flex } from "@/components/ui/Flex";
+import { useContext } from "react";
+import ChatContext from "@/contexts/ChatContext";
 
-interface Props {
-	user: string;
-}
+const ModelSelector: React.FC = () => {
 
-const ModelSelector: React.FC<Props> = ({ user }) => {
+	const { user } = useContext(ChatContext);
+
 	return (
 		<div className="model-selector">
 			<header>
@@ -21,36 +22,23 @@ const ModelSelector: React.FC<Props> = ({ user }) => {
 			<section>
 				<Container>
 					<details>
-						<summary>Modelo locales (2)</summary>
+						<summary>Local ( 2 )</summary>
 						<ul>
+							<li>No model (for testing)</li>
 							<li>Qwen2.5-0.5B-Instruct</li>
-							<li>Other</li>
 						</ul>
 					</details>
 					<details>
-						<summary>Open AI (5)</summary>
-						<ul>
-							<li>gpt-3.5-turbo</li>
-							<li>gpt-4o-mini</li>
-							<li>gpt-4o</li>
-							<li>gpt-4o-mini</li>
-							<li>gpt-4o-mini</li>
-						</ul>
+						<summary>Open AI (0)</summary>
+						<ul></ul>
 					</details>
 					<details>
-						<summary>Gemini (2)</summary>
-						<ul>
-							<li>gemini-1.5-flash</li>
-							<li>gemini-2.0-flash</li>
-						</ul>
+						<summary>Gemini (0)</summary>
+						<ul></ul>
 					</details>
 					<details>
-						<summary>Anthropic (3)</summary>
-						<ul>
-							<li>claude-3-5-sonnet</li>
-							<li>claude-3-5-haiku</li>
-							<li>claude-3-5-sonnet</li>
-						</ul>
+						<summary>Anthropic (0)</summary>
+						<ul></ul>
 					</details>
 				</Container>
 			</section>

@@ -1,36 +1,39 @@
-import React from 'react';
-import { ChatWindow } from '@/components/windows';
-import Login from './Login';
-import ModelSelector from './ModelSelector';
-import LLM from './LLM';
+import React, { useContext } from 'react';
+import { Avatar } from '@/components/avatar';
 import { Flex } from '@/components/ui/Flex';
+import ChatMessages from './ChatMessages';
+import ChatInput from './ChatInput';
+import { ChatMessage } from '@/types/chat';
+import useModelSelector from '@/hooks/useModelSelector';
+import ChatContext from '@/contexts/ChatContext'
+
 
 const Chat: React.FC = () => {
 
-	const [user, setUser] = React.useState<string>('Anonimo');
+	const { user } = useContext(ChatContext);
+	const { messages, isReady, progress, onSendMessage } = useModelSelector(user);
 
-	const handleLogin = (username: string) => {
-		setUser(username);
-	};
+	const handleSend = (message: ChatMessage) => {
+		onSendMessage(message);
+	}
 
 	return (
 		<>
-			{!!user ? (
-				<Flex gap='1rem' justifyContent='space-between' flexWrap='wrap'>
-					<ChatWindow title="Model Selector">
-						<ModelSelector user={user} />
-					</ChatWindow>
-					<div style={{ flex: 1 }}>
-						<ChatWindow title="Chat">
-							<LLM user={user} />
-						</ChatWindow>
-					</div>
-				</Flex>
-			) : (
-				<ChatWindow title="Login">
-					<Login onLogin={handleLogin} />
-				</ChatWindow>
-			)}
+			<Flex justifyContent='space-between' padding="1rem" gap='1rem'>
+				<div style={{ flex: 1 }}>
+					<ChatMessages user={user} messages={messages} />
+				</div>
+				<Avatar url="https://i.pravatar.cc/150?u=2" />
+			</Flex>
+			<Flex justifyContent='space-between' padding="1rem" gap='1rem'>
+				<div style={{ flex: 1 }}>
+					<ChatInput
+						disabled={!isReady}
+						onSend={handleSend}
+					/>
+				</div>
+				<Avatar url="https://i.pravatar.cc/150?u=1" />
+			</Flex>
 		</>
 	);
 };
