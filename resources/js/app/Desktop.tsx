@@ -18,9 +18,11 @@ const Desktop: React.FC = () => {
 		<ChatContext.Provider value={{ user, setUser }}>
 			{!!user ? (
 				<Flex gap='1rem' justifyContent='space-between' flexWrap='wrap'>
-					<ChatWindow title="Model Selector">
-						<ModelSelector />
-					</ChatWindow>
+					<div>
+						<ChatWindow title="Model Selector">
+							<ModelSelector />
+						</ChatWindow>
+					</div>
 					<div style={{ flex: 1 }}>
 						<ChatWindow title="Chat">
 							<Chat />

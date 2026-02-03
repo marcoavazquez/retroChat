@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/buttons';
 import { ChatMessage } from '@/types/chat';
 import React, { useState } from 'react';
 
@@ -23,7 +24,7 @@ const ChatInput: React.FC<Props> = ({ disabled, onSend }) => {
 	return (
 		<div className="chat-input">
 			<textarea value={message} onChange={(e) => setMessage(e.target.value)} disabled={disabled}></textarea>
-			<button onClick={() => handleSend(message)} disabled={disabled}>Enviar</button>
+			<Button onClick={() => handleSend(message)} disabled={disabled}>Enviar</Button>
 		</div>
 	);
 };
