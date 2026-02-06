@@ -6,6 +6,7 @@ import Chat from './Chat';
 import { Flex } from '@/components/ui/Flex';
 import ChatContext from '@/contexts/ChatContext';
 import { Model } from '@/types/models';
+import { Container } from '@/components/ui/Container';
 
 const Desktop: React.FC = () => {
 
@@ -21,24 +22,29 @@ const Desktop: React.FC = () => {
 
 	return (
 		<ChatContext.Provider value={{ user, setUser, model, setModel }}>
-			{!!user ? (
-				<Flex gap='1rem' justifyContent='space-between' flexWrap='wrap'>
-					<div>
-						<ChatWindow title="Model Selector">
-							<ModelSelector />
-						</ChatWindow>
-					</div>
-					<div style={{ flex: 1 }}>
-						<ChatWindow title={`Chat with ${model.provider} - ${model.model}`}>
-							<Chat />
-						</ChatWindow>
-					</div>
-				</Flex>
-			) : (
-				<ChatWindow title="Login">
-					<Login onLogin={handleLogin} />
-				</ChatWindow>
-			)}
+			<Container>
+				{!!user ? (
+					<Flex gap='2rem' justifyContent='space-between' flexWrap='wrap' padding="1rem 0">
+						<div>
+							<ChatWindow title="Model Selector">
+								<ModelSelector />
+							</ChatWindow>
+						</div>
+						<div style={{ flex: 1 }}>
+							<ChatWindow
+								title={`Chat with ${model.provider} - ${model.model}`}
+								minWidth='32rem'
+							>
+								<Chat />
+							</ChatWindow>
+						</div>
+					</Flex>
+				) : (
+					<ChatWindow title="Login">
+						<Login onLogin={handleLogin} />
+					</ChatWindow>
+				)}
+			</Container>
 		</ChatContext.Provider>
 	);
 };
