@@ -1,13 +1,17 @@
+//https://huggingface.co/docs/transformers.js/main/en/tutorials/react
+
 import { pipeline, PipelineType, TextStreamer } from '@huggingface/transformers';
 
 class ChatPipeline {
 	static task: PipelineType = 'text-generation';
-	static model = 'onnx-community/Qwen2.5-0.5B-Instruct'
-	static instance: any = null;
+	static instance: ChatPipeline;
 
-	static async getInstance(progressCallback: any = null) {
+	static async getInstance(model: string, progressCallback: any = null): Promise<ChatPipeline> {
 
-		this.instance ??= pipeline(this.task, this.model, { progress_callback: progressCallback });
+		this.instance ??= pipeline(
+			this.task, model,
+			{ progress_callback: progressCallback }
+		);
 
 		self.addEventListener('message', async (e) => {
 
@@ -40,3 +44,5 @@ class ChatPipeline {
 		return this.instance;
 	}
 }
+
+export default ChatPipeline
