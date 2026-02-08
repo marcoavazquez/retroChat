@@ -1,4 +1,4 @@
-import { ChatModel } from "@/types/chat";
+import { ChatMessage, ChatModel } from "@/types/chat";
 import NoModel from "../ai/NoModel";
 import Local from "../ai/Local";
 
@@ -9,15 +9,15 @@ class ChatService {
         this.provider = provider;
     }
 
-    getChatModel(model: string): ChatModel {
+    getChatModel(model: string, callback: (message: ChatMessage) => void): ChatModel {
         switch (this.provider) {
             case 'local':
                 if (model !== 'none') {
-                    return new Local(model);
+                    return new Local(model, callback);
                 }
-                return new NoModel(model);
+                return new NoModel(model, callback);
             default:
-                return new NoModel(model);
+                return new NoModel(model, callback);
         }
     }
 }

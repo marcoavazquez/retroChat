@@ -5,16 +5,16 @@ class Local implements ChatModel {
 	isReady: boolean;
 	isLoading: boolean;
 	progress: number;
-	model: string;
 	pipeline: Promise<ChatPipeline>
+	onReceiveMessage: (message: ChatMessage) => void
 
-	constructor(model: string) {
-		this.model = model;
+	constructor(model: string, onReceiveMessage: (message: ChatMessage) => void) {
 		// implementar carga de modelo
 		this.isReady = true;
 		this.isLoading = false;
 		this.progress = 100;
 		this.pipeline = ChatPipeline.getInstance(model)
+		this.onReceiveMessage = onReceiveMessage
 	}
 
 	async sendMessage(message: ChatMessage): Promise<ChatMessage> {
@@ -24,15 +24,6 @@ class Local implements ChatModel {
 			message: 'No model selected',
 			timestamp: Date.now()
 		}
-	}
-
-	onReceiveMessage(callback: (message: ChatMessage) => void): void {
-		callback({
-			id: Date.now().toString(),
-			user: 'model',
-			message: 'No model selected',
-			timestamp: Date.now()
-		})
 	}
 }
 

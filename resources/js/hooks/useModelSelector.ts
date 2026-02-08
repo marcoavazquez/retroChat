@@ -11,7 +11,9 @@ const useModelSelector = (provider: string, model: string) => {
     const [progress, setProgress] = useState<number>(0);
 
     useEffect(() => {
-        const m = new ChatService(provider).getChatModel(model);
+        const m = new ChatService(provider).getChatModel(model, (message: ChatMessage) => {
+            setMessages((msgs) => [...msgs, message])
+        });
         setChatModel(m);
     }, [provider, model])
 
@@ -20,9 +22,6 @@ const useModelSelector = (provider: string, model: string) => {
             setIsReady(chatModel.isReady);
             setIsLoading(chatModel.isLoading);
             setProgress(chatModel.progress);
-            chatModel.onReceiveMessage((message: ChatMessage) => {
-                setMessages((prev) => [...prev, message]);
-            })
         }
     }, [chatModel])
 

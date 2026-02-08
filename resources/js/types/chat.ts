@@ -16,5 +16,5 @@ export interface ChatModel {
 	isLoading: boolean;
 	progress: number;
 	sendMessage: (message: ChatMessage) => Promise<ChatMessage>;
-	onReceiveMessage: ((callback: (message: ChatMessage) => void) => void);
+	onReceiveMessage: (message: ChatMessage) => void;
 }

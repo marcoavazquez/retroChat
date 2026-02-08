@@ -9,13 +9,14 @@ class ChatPipeline {
 	static async getInstance(model: string, progressCallback: any = null): Promise<ChatPipeline> {
 
 		this.instance ??= pipeline(
-			this.task, model,
+			this.task,
+			model,
 			{ progress_callback: progressCallback }
 		);
 
 		self.addEventListener('message', async (e) => {
 
-			const message = await ChatPipeline.getInstance((v: any) => {
+			const message = await ChatPipeline.getInstance(model, (v: any) => {
 				self.postMessage(v)
 			});
 

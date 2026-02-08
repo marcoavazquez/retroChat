@@ -5,12 +5,14 @@ class NoModel implements ChatModel {
     isLoading: boolean;
     progress: number;
     model: string;
+    onReceiveMessage: (message: ChatMessage) => void;
 
-    constructor(model: string) {
+    constructor(model: string, onReceiveMessage: (message: ChatMessage) => void) {
         this.model = model;
         this.isReady = true;
         this.isLoading = false;
         this.progress = 100;
+        this.onReceiveMessage = onReceiveMessage
     }
 
     async sendMessage(message: ChatMessage): Promise<ChatMessage> {
@@ -19,18 +21,9 @@ class NoModel implements ChatModel {
     }
 
     async processMessage(message: ChatMessage): Promise<void> {
-        this.onReceiveMessage((message) => {
-            return message
-        })
-    }
-
-    onReceiveMessage(callback: (message: ChatMessage) => void): void {
-        callback({
-            id: Date.now().toString(),
-            user: 'Assistant',
-            message: 'Hello, I am not a real model. I am just a placeholder for testing purposes.',
-            timestamp: Date.now()
-        })
+        setTimeout(() => {
+            this.onReceiveMessage(message)
+        }, 500)
     }
 }
 
