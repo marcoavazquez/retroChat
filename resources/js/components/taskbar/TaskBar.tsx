@@ -8,7 +8,6 @@ import { NavLink } from 'react-router';
 export const TaskBar = () => {
 	return (
 		<footer className='taskbar'>
-			<Container>
 				<Flex justifyContent='space-between' alignItems='center' gap='1rem'>
 					<IconButton onClick={() => { }}>
 						🪟
@@ -16,7 +15,6 @@ export const TaskBar = () => {
 					<NavLink to="/login">Adm</NavLink>
 					<ThemeToggler />
 				</Flex>
-			</Container>
 		</footer>
 	);
 };

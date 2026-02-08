@@ -5,4 +5,5 @@ footer.taskbar {
 	padding: 0.5rem 0;
 	backdrop-filter: blur(1rem);
 	border-top: 1px solid rgba(0, 0, 0, 0.5);
+	padding: 0 1rem;
 }
