@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    links:
+      - dbservice
+  db:
+    image: postgres:15-alpine 
+    ports:
+      - "3100:3100"
+    environment:
+      - POSTGRES_DB: ${DB_DATABASE}
+      - POSTGRES_USER: ${DB_USERNAME}
+      - POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
