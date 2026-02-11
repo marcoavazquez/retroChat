@@ -10,8 +10,8 @@ const ChatMessages: React.FC<Props> = ({ messages }) => {
 
 	return (
 		<div className='chat-messages'>
-			{messages.map((message) => (
-				<div key={message.id}>
+			{messages.map((message, idx) => (
+				<div key={idx + message.id}>
 					<span className='chat-messages-user'>{message.user} says:</span>
 					<div className='chat-messages-message'>{message.message}</div>
 				</div>
