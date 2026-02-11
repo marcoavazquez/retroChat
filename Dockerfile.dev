@@ -1,4 +1,0 @@
-FROM PHP
-
-WORKDIR /home/app
-

@@ -1,0 +1,47 @@
+services:
+  web:
+    image: nginx:alpine
+    container_name: nginx
+    ports: 
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+  node:
+    image: node:25-alpine3.22
+    container_name: node_assets
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "5173:5173"
+  app:
+    build: .
+    user: "www-data:www-data" # Para errores de lectura de archivos en storage
+    container_name: retrochatapp
+    command: >
+      sh -c "composer install && php artisan storage:link || true && php-fpm"
+    volumes:
+      - .:/var/www/html
+    # environment:
+      # DB_HOST: db
+      # etc...
+    depends_on:
+      - db
+  db:
+    image: postgres:18.1-alpine3.23
+    container_name: postgresdb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgress_data:/var/lib/postgresql/data
+
+volumes:
+  postgress_data:

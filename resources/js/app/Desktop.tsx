@@ -10,7 +10,7 @@ import { Container } from '@/components/ui/Container';
 
 const Desktop: React.FC = () => {
 
-	const [user, setUser] = React.useState<string>('Anonimo');
+	const [user, setUser] = React.useState<string>('Anonimo #2');
 	const [model, setModel] = React.useState<Model>({
 		provider: 'local',
 		model: 'none'
