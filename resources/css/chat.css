@@ -9,7 +9,10 @@
 	background-color: var(--chat-background);
 	padding: 0.5rem;
 	min-height: 16rem;
-	height: 100%;
+	max-height: 24rem;
+	min-width: 32rem;
+	max-width: 48rem;
+	overflow-y: auto;
 	line-height: 1.8;
 }
 
@@ -19,6 +22,7 @@
 
 .chat-messages-message {
 	padding-left: 0.5rem;
+	white-space: pre-wrap;
 }
 
 .chat-input {
@@ -28,6 +32,7 @@
 	padding: 0.5rem;
 	height: 100%;
 
+	div,
 	textarea {
 		width: 100%;
 		border: none;

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/buttons';
 import ChatContext from '@/contexts/ChatContext';
 import { ChatMessage } from '@/types/chat';
-import React, { useContext, useState } from 'react';
+import React, { SyntheticEvent, useContext, useEffect, useRef, useState } from 'react';
 
 interface Props {
 	disabled: boolean;
@@ -11,10 +11,27 @@ interface Props {
 const ChatInput: React.FC<Props> = ({ disabled, onSend }) => {
 
 	const { user } = useContext(ChatContext);
-
+	const inputRef = useRef<HTMLDivElement>(null);
 	const [message, setMessage] = useState<string>('');
 
-	const handleSend = (message: string) => {
+	useEffect(() => {
+		inputRef.current?.focus();
+	}, [])
+
+	const handleChange = (e: SyntheticEvent<HTMLDivElement>) => {
+		const msg = e.currentTarget.innerText.trim() || '';
+		setMessage(msg);
+	}
+
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			handleSend();
+		}
+	}
+
+	const handleSend = () => {
+		if (message.trim() === '') return;
 		onSend({
 			id: Date.now().toString(),
 			user,
@@ -22,12 +39,27 @@ const ChatInput: React.FC<Props> = ({ disabled, onSend }) => {
 			timestamp: Date.now()
 		});
 		setMessage('');
+		if (inputRef.current) {
+			inputRef.current.innerText = '';
+			inputRef.current.focus();
+		}
 	}
 
 	return (
 		<div className="chat-input">
-			<textarea value={message} onChange={(e) => setMessage(e.target.value)} disabled={disabled}></textarea>
-			<Button onClick={() => handleSend(message)} disabled={disabled}>Enviar</Button>
+			<div
+				className='chat-input-box'
+				contentEditable={true}
+				ref={inputRef}
+				onInput={handleChange}
+				onKeyDown={handleKeyDown}
+			/>
+			<Button
+				onClick={() => handleSend()}
+				disabled={disabled}
+			>
+				Enviar
+			</Button>
 		</div>
 	);
 };

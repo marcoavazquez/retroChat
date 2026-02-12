@@ -8,7 +8,7 @@ RUN apk add --no-cache \
   shadow \
   libpq
 
-RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+# RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 # 2. Instalamos las extensiones de PHP
 # Encadenamos los comandos para asegurar que se ejecuten en la misma capa

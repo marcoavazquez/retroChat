@@ -1,3 +1,6 @@
+export type OnReceiveMessageCallback = (message: ChatMessage) => void;
+export type MessageStatus = 'initiate' | 'progress' | 'done' | 'ready' | 'update' | 'complete'
+
 export interface ChatMessage {
 	id: string;
 	user: string;
@@ -16,5 +19,6 @@ export interface ChatModel {
 	isLoading: boolean;
 	progress: number;
 	sendMessage: (message: ChatMessage) => Promise<ChatMessage>;
-	onReceiveMessage: (message: ChatMessage) => void;
+	processMessage: (message: ChatMessage) => void;
+	onReceiveMessage: (onReceiveMessageCallback: OnReceiveMessageCallback) => void;
 }

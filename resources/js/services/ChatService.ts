@@ -3,23 +3,23 @@ import NoModel from "../ai/NoModel";
 import Local from "../ai/Local";
 
 class ChatService {
-    provider: string;
+	provider: string;
 
-    constructor(provider: string) {
-        this.provider = provider;
-    }
+	constructor(provider: string) {
+		this.provider = provider;
+	}
 
-    getChatModel(model: string, callback: (message: ChatMessage) => void): ChatModel {
-        switch (this.provider) {
-            case 'local':
-                if (model !== 'none') {
-                    return new Local(model, callback);
-                }
-                return new NoModel(model, callback);
-            default:
-                return new NoModel(model, callback);
-        }
-    }
+	getChatModel(model: string): ChatModel {
+		switch (this.provider) {
+			case 'local':
+				if (model !== 'none') {
+					return new Local(model);
+				}
+				return new NoModel(model);
+			default:
+				return new NoModel(model);
+		}
+	}
 }
 
 export default ChatService;

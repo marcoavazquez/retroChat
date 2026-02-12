@@ -11,17 +11,19 @@ import ChatContext from '@/contexts/ChatContext'
 const Chat: React.FC = () => {
 
 	const { user, model } = useContext(ChatContext);
-	const { messages, isReady, progress, onSendMessage } = useModelSelector(model.provider, model.model);
+	const { messages, isReady, progress, status, onSendMessage } = useModelSelector(model.provider, model.model);
 
 	const handleSend = (message: ChatMessage) => {
-		onSendMessage(message);
+		document.startViewTransition(() => {
+			onSendMessage(message);
+		})
 	}
 
 	return (
 		<>
 			<Flex justifyContent='space-between' padding="1rem" gap='1rem'>
 				<div style={{ flex: 1 }}>
-					<ChatMessages messages={messages} />
+					<ChatMessages messages={messages} status={status} />
 				</div>
 				<Avatar url="https://i.pravatar.cc/150?u=2" />
 			</Flex>
