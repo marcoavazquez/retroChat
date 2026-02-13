@@ -5,13 +5,23 @@ class NoModel implements ChatModel {
 	isLoading: boolean;
 	progress: number;
 	model: string;
+	timeOutId: NodeJS.Timeout | null;
+	progressItems: Record<string, string>[];
 	onReceiveMessageCallback?: OnReceiveMessageCallback;
 
 	constructor(model: string) {
 		this.model = model;
+		this.timeOutId = null;
 		this.isReady = true;
 		this.isLoading = false;
 		this.progress = 100;
+		this.progressItems = [];
+	}
+
+	destructor() {
+		if (this.timeOutId) {
+			clearTimeout(this.timeOutId)
+		}
 	}
 
 	async sendMessage(message: ChatMessage): Promise<ChatMessage> {
@@ -26,7 +36,7 @@ class NoModel implements ChatModel {
 			message: 'You said: ' + message.message,
 			timestamp: Date.now()
 		}
-		setTimeout(() => {
+		this.timeOutId = setTimeout(() => {
 			if (typeof this.onReceiveMessageCallback === 'function') {
 				this.onReceiveMessageCallback(msg)
 			}

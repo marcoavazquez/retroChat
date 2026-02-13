@@ -4,9 +4,9 @@ import { pipeline, PipelineType, TextStreamer } from '@huggingface/transformers'
 
 class ChatPipeline {
 	static task: PipelineType = 'text-generation';
-	static instance: ChatPipeline;
+	static instance: any;
 
-	static async getInstance(model: string, progressCallback: any = null): Promise<ChatPipeline> {
+	static async getInstance(model: string, progressCallback: any = null): Promise<any> {
 
 		this.instance ??= pipeline(
 			this.task,

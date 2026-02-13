@@ -9,6 +9,7 @@ const useModelSelector = (provider: string, model: string) => {
 	const [isReady, setIsReady] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [progress, setProgress] = useState<number>(0);
+	const [progressItems, setProgressItems] = useState<Record<string, string>[]>([]);
 	const [status, setStatus] = useState<MessageStatus>('initiate');
 
 	useEffect(() => {
@@ -21,11 +22,14 @@ const useModelSelector = (provider: string, model: string) => {
 			setIsReady(chatModel.isReady);
 			setIsLoading(chatModel.isLoading);
 			setProgress(chatModel.progress);
-
+			setProgressItems(chatModel.progressItems);
 			chatModel.onReceiveMessage((message: ChatMessage) => {
 				setMessages((msgs) => [...msgs, message])
 				setStatus('complete');
 			})
+		}
+		return () => {
+			chatModel?.destructor()
 		}
 	}, [chatModel])
 

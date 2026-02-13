@@ -19,7 +19,11 @@ export default defineConfig({
 			ignored: ['**/storage/framework/views/**'],
 		},
 		cors: {
-			origin: '*',
+			origin: [
+				'http://localhost:5173',
+				'http://localhost:8000',
+				'https://huggingface.co',
+			],
 		}
 	},
 });
