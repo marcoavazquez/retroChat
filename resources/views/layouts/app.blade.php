@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/gif" href="{{ asset('favicon.gif') }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Retro Chat') }}</title>
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/main.tsx'])

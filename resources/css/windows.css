@@ -13,6 +13,7 @@
 	.chat-window-header {
 		background: var(--window-header-background);
 		padding: 0.5rem 1rem;
+		font-size: 0.8rem;
 	}
 
 	.chat-window-body {

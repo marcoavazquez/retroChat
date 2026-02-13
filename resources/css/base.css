@@ -13,7 +13,7 @@
 
 	--taskbar-background: rgba(0 0 0 / 0.1);
 
-	--font-color: #071127;
+	--font-color: #0b1429;
 
 	--input-background: white;
 	--input-border: 1px solid #869db6;
@@ -46,11 +46,13 @@
 
 * {
 	box-sizing: border-box;
+	transition: all 0.1s ease-in-out;
 }
 
 
 body {
 	background-image: var(--body-background);
+	background-color: black;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;

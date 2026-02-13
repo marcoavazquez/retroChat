@@ -18,11 +18,23 @@
 	}
 
 	li {
-		padding: 0.2rem 0.5rem;
+		padding: 0.2rem;
 	}
 
 	details {
 		line-height: 2;
+		overflow: hidden;
+
+		button {
+			background-color: transparent;
+			border: none;
+			outline: none;
+			padding: 0;
+		}
+	}
+
+	details[open] {
+		max-height: 10rem;
 	}
 
 	details>summary {
@@ -31,10 +43,11 @@
 	}
 
 	details>summary::marker {
-		content: '> ';
+		content: '▶ ';
+		font-size: 0.6rem;
 	}
 
 	details[open]>summary::marker {
-		content: 'v ';
+		content: '▼ ';
 	}
 }

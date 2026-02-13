@@ -10,8 +10,8 @@ interface Props {
 const ChatMessages: React.FC<Props> = ({ messages, status }) => {
 
 	const bottomRef = useRef<HTMLDivElement>(null);
-	useEffect(() => {
 
+	useEffect(() => {
 		if (bottomRef.current && messages.length > 0) {
 			bottomRef.current.scrollIntoView({ behavior: 'smooth' });
 		}

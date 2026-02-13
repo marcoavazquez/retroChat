@@ -2,6 +2,7 @@
 .chat-input {
 	border-radius: 0.5rem;
 	border: 0.1rem solid var(--window-border-color);
+	max-width: 48rem;
 }
 
 
@@ -11,7 +12,6 @@
 	min-height: 16rem;
 	max-height: 24rem;
 	min-width: 32rem;
-	max-width: 48rem;
 	overflow-y: auto;
 	line-height: 1.8;
 }
