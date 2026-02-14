@@ -1,12 +1,15 @@
 //https://huggingface.co/docs/transformers.js/main/en/tutorials/react
 
-import { pipeline, PipelineType, TextStreamer } from '@huggingface/transformers';
+import { pipeline, PipelineType, TextStreamer, env } from '@huggingface/transformers';
 
 class ChatPipeline {
-	static task: PipelineType = 'text-generation';
+	static task: PipelineType = 'text2text-generation';
 	static instance: any;
 
 	static async getInstance(model: string, progressCallback: any = null): Promise<any> {
+
+		env.allowLocalModels = false;
+		env.useBrowserCache = true;
 
 		this.instance ??= pipeline(
 			this.task,

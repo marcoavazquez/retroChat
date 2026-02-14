@@ -25,7 +25,7 @@ const ModelSelector: React.FC = () => {
 						<summary>Local ( 2 )</summary>
 						<ul>
 							<li><button onClick={() => setModel({ provider: 'local', model: 'none' })}>No model (for testing)</button></li>
-							<li><button onClick={() => setModel({ provider: 'local', model: 'qwen2.5-0.5b-instruct' })}>Qwen2.5-0.5B-Instruct</button></li>
+							<li><button onClick={() => setModel({ provider: 'local', model: 'Xenova/flan-t5-small' })}>Flan T5 Small</button></li>
 						</ul>
 					</details>
 					<details>
@@ -33,7 +33,7 @@ const ModelSelector: React.FC = () => {
 						<ul></ul>
 					</details>
 					<details>
-						<summary>Gemini (0)</summary>
+						<summary>Google (0)</summary>
 						<ul></ul>
 					</details>
 					<details>

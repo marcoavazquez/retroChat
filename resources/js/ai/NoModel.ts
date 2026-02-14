@@ -6,8 +6,8 @@ class NoModel implements ChatModel {
 	progress: number;
 	model: string;
 	timeOutId: NodeJS.Timeout | null;
-	progressItems: Record<string, string>[];
 	onReceiveMessageCallback?: OnReceiveMessageCallback;
+	onLoadingCallback?: (progress: number) => void;
 
 	constructor(model: string) {
 		this.model = model;
@@ -15,7 +15,6 @@ class NoModel implements ChatModel {
 		this.isReady = true;
 		this.isLoading = false;
 		this.progress = 100;
-		this.progressItems = [];
 	}
 
 	destructor() {
@@ -45,6 +44,10 @@ class NoModel implements ChatModel {
 
 	onReceiveMessage(onReceiveMessageCallback: OnReceiveMessageCallback) {
 		this.onReceiveMessageCallback = onReceiveMessageCallback
+	}
+
+	onLoading(onLoadingCallback: (progress: number) => void) {
+		this.onLoadingCallback = onLoadingCallback
 	}
 }
 

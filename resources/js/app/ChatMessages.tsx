@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { ChatMessage, MessageStatus } from '@/types/chat';
+import { Flex } from '@/components/ui/Flex';
 
 interface Props {
 	messages: ChatMessage[];
@@ -19,18 +20,20 @@ const ChatMessages: React.FC<Props> = ({ messages, status }) => {
 	}, [messages]);
 
 	return (
-		<div className='chat-messages'>
-			{messages.map((message, idx) => (
-				<div
-					key={idx + message.id} className={idx === messages.length - 1 ? 'chat-messages-last' : ''}
-				>
-					<span className='chat-messages-user'>{message.user} says:</span>
-					<div className='chat-messages-message'>
-						{message.message}
+		<div className='chat-messages-container'>
+			<div className='chat-messages'>
+				{messages.map((message, idx) => (
+					<div
+						key={idx + message.id} className={idx === messages.length - 1 ? 'chat-messages-last' : ''}
+					>
+						<span className='chat-messages-user'>{message.user} says:</span>
+						<div className='chat-messages-message'>
+							{message.message}
+						</div>
 					</div>
-				</div>
-			))}
-			<div ref={bottomRef} />
+				))}
+				<div ref={bottomRef} />
+			</div>
 			<div className='chat-status'>
 				{status}
 			</div>

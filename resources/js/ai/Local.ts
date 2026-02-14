@@ -1,76 +1,47 @@
-import { ChatMessage, ChatModel, MessageStatus } from "@/types/chat";
-import ChatPipeline from "./local/worker";
+import { env, pipeline } from "@huggingface/transformers";
+import { ChatMessage, ChatModel, OnReceiveMessageCallback } from "../types/chat";
 
-type onReceiveMessageCallback = (message: ChatMessage) => void;
+
 class Local implements ChatModel {
 	isReady: boolean;
 	isLoading: boolean;
 	progress: number;
-	progressItems: Record<string, string>[];
-	worker: Worker;
-	pipeline: Promise<ChatPipeline>
 	model: string;
-	onReceiveMessageCallback?: onReceiveMessageCallback;
-	status: MessageStatus;
-	response: string;
+	generator: any;
+	onReceiveMessageCallback?: OnReceiveMessageCallback;
+	onLoadingCallback?: (progress: number) => void;
 
 	constructor(model: string) {
-		this.isReady = true;
-		this.isLoading = false;
-		this.progress = 100;
-		this.progressItems = [];
-		this.pipeline = ChatPipeline.getInstance(model)
+		this.isReady = false;
+		this.isLoading = true;
+		this.progress = 0;
 		this.model = model;
-		this.status = 'initiate';
-		this.response = '';
-		this.worker = new Worker(new URL('./local/worker.ts', import.meta.url), {
-			type: 'module'
-		})
-
-		this.worker.addEventListener('message', this.onMessageReveived)
+		this.loadModel();
 	}
 
-	onMessageReveived(e: MessageEvent) {
-		this.status = e.data.status;
-		this.progressItems.push(e.data.output);
-		switch (this.status) {
-			case 'initiate':
-				this.isReady = false;
-				this.progressItems.push(e.data)
-				break;
-			case 'progress':
-				this.progress = e.data.progress;
-				this.progressItems.map((item) => {
-					if (item.file === e.data.file) {
-						return { ...item, progress: e.data.progress }
-					}
-					return item;
-				})
-				break;
-			case 'done':
-				this.progressItems.filter((item) => item.file !== e.data.file)
-				break;
-			case 'ready':
-				this.isReady = true;
-				break;
-			case 'update':
-				this.response += e.data.output;
-				break;
-			case 'done':
-				if (typeof this.onReceiveMessageCallback === 'function') {
-					this.onReceiveMessageCallback({
-						id: Date.now().toString(),
-						user: this.model || 'No model selected',
-						message: this.response,
-						timestamp: Date.now()
-					})
+	async loadModel() {
+		env.allowLocalModels = false;
+		env.useBrowserCache = true;
+
+		this.generator = await pipeline('text2text-generation', this.model, {
+			progress_callback: (progress: any) => {
+				if (progress.status === 'progress' && this.onLoadingCallback) {
+					this.progress = Math.round((progress.loaded / progress.total) * 100);
+					this.onLoadingCallback(this.progress);
 				}
-				break;
-		}
+			}
+		})
+
+		this.isReady = true;
+		this.isLoading = false;
 	}
 
 	destructor() {
-		this.worker.removeEventListener('message', this.onMessageReveived)
+
+	}
+
+	onLoading(onLoadingCallback: (progress: number) => void) {
+		this.onLoadingCallback = onLoadingCallback
 	}
 
 	async sendMessage(message: ChatMessage): Promise<ChatMessage> {
@@ -78,26 +49,32 @@ class Local implements ChatModel {
 		return message;
 	}
 
-	onReceiveMessage(onReceiveMessageCallback: onReceiveMessageCallback) {
-		this.onReceiveMessageCallback = onReceiveMessageCallback
+	async processMessage(message: ChatMessage) {
+		this.isLoading = true
+		const msg: Partial<ChatMessage> = {
+			id: Date.now().toString(),
+			user: this.model,
+		}
+		try {
+			const result = await this.generator(message.message, {
+				max_new_tokens: 200,
+				temperature: 0.9,
+				do_sample: true,
+			})
+			msg.message = result[0].generated_text
+		} catch (error) {
+			msg.message = 'Error: ' + error
+		} finally {
+			msg.timestamp = Date.now()
+			this.isLoading = false
+		}
+		if (typeof this.onReceiveMessageCallback === 'function') {
+			this.onReceiveMessageCallback(msg as ChatMessage)
+		}
 	}
 
-	processMessage(messageSent: ChatMessage) {
-
-		this.worker.postMessage({
-			text: messageSent.message
-		})
-
-
-		const message: ChatMessage = {
-			id: Date.now().toString(),
-			user: this.model || 'No model selected',
-			message: messageSent.message,
-			timestamp: Date.now()
-		}
-		if (this.onReceiveMessageCallback) {
-			this.onReceiveMessageCallback(message)
-		}
+	onReceiveMessage(onReceiveMessageCallback: OnReceiveMessageCallback) {
+		this.onReceiveMessageCallback = onReceiveMessageCallback
 	}
 }
 

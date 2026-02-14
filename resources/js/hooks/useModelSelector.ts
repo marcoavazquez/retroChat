@@ -9,7 +9,6 @@ const useModelSelector = (provider: string, model: string) => {
 	const [isReady, setIsReady] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [progress, setProgress] = useState<number>(0);
-	const [progressItems, setProgressItems] = useState<Record<string, string>[]>([]);
 	const [status, setStatus] = useState<MessageStatus>('initiate');
 
 	useEffect(() => {
@@ -18,11 +17,21 @@ const useModelSelector = (provider: string, model: string) => {
 	}, [provider, model])
 
 	useEffect(() => {
+		reset();
 		if (chatModel) {
 			setIsReady(chatModel.isReady);
 			setIsLoading(chatModel.isLoading);
 			setProgress(chatModel.progress);
-			setProgressItems(chatModel.progressItems);
+
+			chatModel.onLoading((progress: number) => {
+				setProgress(progress);
+				if (progress === 100) {
+					setStatus('ready');
+					setIsLoading(false);
+					setIsReady(true);
+				}
+			})
+
 			chatModel.onReceiveMessage((message: ChatMessage) => {
 				setMessages((msgs) => [...msgs, message])
 				setStatus('complete');
@@ -34,11 +43,17 @@ const useModelSelector = (provider: string, model: string) => {
 	}, [chatModel])
 
 	const onSendMessage = async (message: ChatMessage) => {
+		setMessages((prev) => [...prev, message]);
 		setStatus('progress');
-		const response = await chatModel?.sendMessage(message);
-		if (response) {
-			setMessages((prev) => [...prev, response]);
-		}
+		await chatModel?.sendMessage(message);
+	}
+
+	const reset = () => {
+		setMessages([]);
+		setStatus('initiate');
+		setIsLoading(false);
+		setIsReady(false);
+		setProgress(0);
 	}
 
 	return {
