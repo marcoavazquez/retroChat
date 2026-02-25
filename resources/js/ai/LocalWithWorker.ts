@@ -1,76 +1,59 @@
-import { ChatMessage, ChatModel, MessageStatus } from "@/types/chat";
-import ChatPipeline from "./local/worker";
+import { ChatMessage, ChatModel, OnReceiveMessageCallback } from "@/types/chat";
 
-type onReceiveMessageCallback = (message: ChatMessage) => void;
-class Local implements ChatModel {
-	isReady: boolean;
-	isLoading: boolean;
-	progress: number;
-	progressItems: Record<string, string>[];
-	worker: Worker;
-	pipeline: Promise<ChatPipeline>
+class LocalWithWorker implements ChatModel {
+
 	model: string;
-	onReceiveMessageCallback?: onReceiveMessageCallback;
-	status: MessageStatus;
-	response: string;
+	worker: Worker;
+	onLoading: (progress: number) => void;
+	onReady: () => void;
+	onError: (error: Error) => void;
+	onReceiveMessage: OnReceiveMessageCallback;
 
-	constructor(model: string) {
-		this.isReady = true;
-		this.isLoading = false;
-		this.progress = 100;
-		this.progressItems = [];
-		this.pipeline = ChatPipeline.getInstance(model)
+	constructor(model: string, {
+		onLoading,
+		onReady,
+		onError,
+		onReceiveMessage
+	}: Record<string, any>) {
 		this.model = model;
-		this.status = 'initiate';
-		this.response = '';
-		this.worker = new Worker(new URL('./local/worker.ts', import.meta.url), {
-			type: 'module'
+		this.worker = new Worker(new URL('./workers/loca.ts', import.meta.url));
+		this.onLoading = onLoading;
+		this.onReady = onReady;
+		this.onError = onError;
+		this.onReceiveMessage = onReceiveMessage;
+
+		this.init()
+	}
+
+	init() {
+
+		this.worker.addEventListener('message', (e) => {
+			const { type, message, percent } = e.data
+			switch (type) {
+				case 'init':
+					// this.onReady();
+					break;
+				case 'progress':
+				this.onLoading(percent);
+					break;
+				case 'response':
+					this.onReceiveMessage({
+						id: Date.now().toString(),
+						user: this.model,
+						message,
+						timestamp: Date.now()
+					});
+					break;
+				case 'ready':
+					this.onReady();
+					break;
+				case 'error':
+					this.onError(new Error(message));
+					break;
+			}
 		})
 
-		this.worker.addEventListener('message', this.onMessageReveived)
-	}
-
-	onMessageReveived(e: MessageEvent) {
-		this.status = e.data.status;
-		this.progressItems.push(e.data.output);
-		switch (this.status) {
-			case 'initiate':
-				this.isReady = false;
-				this.progressItems.push(e.data)
-				break;
-			case 'progress':
-				this.progress = e.data.progress;
-				this.progressItems.map((item) => {
-					if (item.file === e.data.file) {
-						return { ...item, progress: e.data.progress }
-					}
-					return item;
-				})
-				break;
-			case 'done':
-				this.progressItems.filter((item) => item.file !== e.data.file)
-				break;
-			case 'ready':
-				this.isReady = true;
-				break;
-			case 'update':
-				this.response += e.data.output;
-				break;
-			case 'complete':
-				if (typeof this.onReceiveMessageCallback === 'function') {
-					this.onReceiveMessageCallback({
-						id: Date.now().toString(),
-						user: this.model || 'No model selected',
-						message: this.response,
-						timestamp: Date.now()
-					})
-				}
-				break;
-		}
-	}
-
-	destructor() {
-		this.worker.removeEventListener('message', this.onMessageReveived)
+		this.worker.postMessage({ type: 'init', message: this.model });
 	}
 
 	async sendMessage(message: ChatMessage): Promise<ChatMessage> {
@@ -78,27 +61,18 @@ class Local implements ChatModel {
 		return message;
 	}
 
-	onReceiveMessage(onReceiveMessageCallback: onReceiveMessageCallback) {
-		this.onReceiveMessageCallback = onReceiveMessageCallback
+	processMessage(messageSent: ChatMessage) {
+		console.log('pricessing...', messageSent.message)
+		this.worker.postMessage({
+			type: 'generate',
+			message: messageSent.message
+		})
 	}
 
-	processMessage(messageSent: ChatMessage) {
-
-		this.worker.postMessage({
-			text: messageSent.message
-		})
-
-
-		const message: ChatMessage = {
-			id: Date.now().toString(),
-			user: this.model || 'No model selected',
-			message: messageSent.message,
-			timestamp: Date.now()
-		}
-		if (this.onReceiveMessageCallback) {
-			this.onReceiveMessageCallback(message)
-		}
+	destructor() {
+		this.worker.terminate();
+		//		this.worker.removeEventListener('message', this.onMessageReveived);
 	}
 }
 
-export default Local;
+export default LocalWithWorker;

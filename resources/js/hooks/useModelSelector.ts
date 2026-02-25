@@ -12,31 +12,31 @@ const useModelSelector = (provider: string, model: string) => {
 	const [status, setStatus] = useState<MessageStatus>('initiate');
 
 	useEffect(() => {
-		const m = new ChatService(provider).getChatModel(model);
-		setChatModel(m);
-	}, [provider, model])
-
-	useEffect(() => {
-		reset();
-		if (chatModel) {
-			setIsReady(chatModel.isReady);
-			setIsLoading(chatModel.isLoading);
-			setProgress(chatModel.progress);
-
-			chatModel.onLoading((progress: number) => {
+		const m = new ChatService(provider).getChatModel(model, {
+			onLoading: (progress: number) => {
 				setProgress(progress);
 				if (progress === 100) {
 					setStatus('ready');
 					setIsLoading(false);
-					setIsReady(true);
 				}
-			})
-
-			chatModel.onReceiveMessage((message: ChatMessage) => {
-				setMessages((msgs) => [...msgs, message])
+			},
+			onReady: () => {
+				setIsReady(true);
+			},
+			onError: (error: Error) => {
+				setIsLoading(false);
+				setIsReady(false);
+				setStatus('error');
+			},
+			onReceiveMessage: (msg: ChatMessage) => {
+				setMessages((msgs) => [...msgs, msg])
 				setStatus('complete');
-			})
-		}
+			}
+		});
+		setChatModel(m);
+	}, [provider, model])
+
+	useEffect(() => {
 		return () => {
 			chatModel?.destructor()
 		}

@@ -1,20 +1,19 @@
 import { ChatMessage, ChatModel, OnReceiveMessageCallback } from "@/types/chat";
 
 class NoModel implements ChatModel {
-	isReady: boolean;
-	isLoading: boolean;
-	progress: number;
-	model: string;
-	timeOutId: NodeJS.Timeout | null;
-	onReceiveMessageCallback?: OnReceiveMessageCallback;
-	onLoadingCallback?: (progress: number) => void;
 
-	constructor(model: string) {
-		this.model = model;
+	timeOutId: NodeJS.Timeout | null;
+	onReceiveMessage: OnReceiveMessageCallback;
+	onLoading: (progress: number) => void;
+	onReady: () => void;
+	onError: (error: Error) => void;
+
+	constructor(model: string, options: Record<string, any>) {
 		this.timeOutId = null;
-		this.isReady = true;
-		this.isLoading = false;
-		this.progress = 100;
+		this.onReceiveMessage = options.onReceiveMessage;
+		this.onLoading = options.onLoading;
+		this.onReady = options.onReady;
+		this.onError = options.onError;
 	}
 
 	destructor() {
@@ -36,18 +35,8 @@ class NoModel implements ChatModel {
 			timestamp: Date.now()
 		}
 		this.timeOutId = setTimeout(() => {
-			if (typeof this.onReceiveMessageCallback === 'function') {
-				this.onReceiveMessageCallback(msg)
-			}
+			this.onReceiveMessage(msg)
 		}, 500)
-	}
-
-	onReceiveMessage(onReceiveMessageCallback: OnReceiveMessageCallback) {
-		this.onReceiveMessageCallback = onReceiveMessageCallback
-	}
-
-	onLoading(onLoadingCallback: (progress: number) => void) {
-		this.onLoadingCallback = onLoadingCallback
 	}
 }
 

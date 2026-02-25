@@ -1,25 +1,28 @@
 //https://huggingface.co/docs/transformers.js/main/en/tutorials/react
 
-import { pipeline, PipelineType, TextStreamer, env } from '@huggingface/transformers';
+import { pipeline, PipelineType, TextStreamer, env, ClapAudioModelWithProjection } from '@huggingface/transformers';
 
 class ChatPipeline {
 	static task: PipelineType = 'text2text-generation';
 	static instance: any;
+	static model: string = 'Xenova/flan-t5-small';
 
-	static async getInstance(model: string, progressCallback: any = null): Promise<any> {
+	static async getInstance(progressCallback: any = null): Promise<any> {
 
 		env.allowLocalModels = false;
 		env.useBrowserCache = true;
 
 		this.instance ??= pipeline(
 			this.task,
-			model,
+			this.model,
 			{ progress_callback: progressCallback }
 		);
 
 		self.addEventListener('message', async (e) => {
 
-			const message = await ChatPipeline.getInstance(model, (v: any) => {
+			console.log('processing...', e.data)
+
+			const message = await ChatPipeline.getInstance((v: any) => {
 				self.postMessage(v)
 			});
 
